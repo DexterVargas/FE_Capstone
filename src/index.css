@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	button{
+		@apply border border-gray-200 rounded-xl px-5 py-1
+	}
+}
 body{
  	font-family:'Lato', sans-serif;
+	/* background-color:thistle; */
 }
 
 .hide-scrollbar::-webkit-scrollbar{

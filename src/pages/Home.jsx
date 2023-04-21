@@ -1,42 +1,87 @@
-import React, { useState, useRef, useEffect} from 'react'
-import { Sidebar } from '../components'
+import React, { useState, useRef, useEffect, createContext } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import map from '../assets/ph-map.png'
-import Pins from './Pins'
-import { Button } from '@material-tailwind/react';
-import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
-import ShareLocationIcon from '@mui/icons-material/ShareLocation';
-import ModeOfTravelIcon from '@mui/icons-material/ModeOfTravel';
+import CloseIcon from '@mui/icons-material/Close';
+import CameraIcon from '@mui/icons-material/Camera';
+import bgImage from  '../assets/bg.jpg'
+
+import { Link, Route, Routes } from 'react-router-dom';
+import { Sidebar, UserProfile } from '../components';
+import { userQuery } from '../utils/data';
+import { client } from '../library/sanity';
+import Pins from './Pins';
+export const UserProfileContext = createContext();
 
 const Home = () => {
-	const [explore, setExplore] = useState(false);
-	return ( 
-		<div className='h-screen w-full bg-gradient-to-b from-white to-gray-400 blue-gray'>
+	const [toggleSidebar, setToggleSidebar] = useState(true);
+	const [user, setUser] = useState(null);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const closeMenu = () => setIsMenuOpen(false);
 
-			<div className='max-w-screen-lg mx-auto flex flex-col items-center justify-center h-full px-4 md:flex-row'>
-				<div className='flex flex-col justify-center h-full'>
-					<h2 className='text-4xl sm:text-7xl font-bold text-gray-800 '>Discover</h2>
-					<h3 className='text-4xl sm:text-7xl font-bold text-teal-800'>Philippines</h3>
-					<p className='my-2'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. At cum eaque, eligendi voluptates veniam debitis ullam, quod officiis quibusdam in aut, dicta quo. !</p>
-					<div>
-						<Button color='blue-gray' className="group flex items-center gap-3" onMouseOver={() => setExplore(true)} onMouseLeave={() => setExplore(false)}>
-							Explore
-							<span className=' group-hover:rotate-90 duration-300'>
-								{explore ? <AddLocationAltIcon strokeWidth={2} className="h-5 w-5" />: <ShareLocationIcon /> }
-								<ModeOfTravelIcon />
-							</span>
-						</Button>
-					</div>
+	const scrollRef = useRef(null);
+
+	const userInfo = (localStorage.getItem('AdventuSnapUserAuth') !== null || localStorage.getItem('AdventuSnapUserAuth') !== 'undefined') ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
+
+	useEffect(() => {
+		const query = userQuery(userInfo.uid);
+			console.log(query)
+		client.fetch(query).then((data) => {
+			console.log('data0',data[0]);
+			setUser(data[0]);
+		});
+	}, []);
+
+	useEffect(() => {
+		scrollRef.current.scrollTo(0, 0);
+	});
+	const values = {
+		toggleSidebar,
+		setToggleSidebar,
+		user,
+		userInfo,
+		isMenuOpen,
+		setIsMenuOpen,
+		closeMenu,
+	}
+	return (
+		<UserProfileContext.Provider value={ values }>
+			<div className="flex bg-gray-50 md:flex-row flex-col h-screen transition-height duration-75 ease-out bg-no-repeat bg-center" style={{backgroundImage: `url(${bgImage})`}} >
+				<div className="hidden md:flex h-screen flex-initial">
+					<Sidebar />
 				</div>
-				<div className='flex justify-center text-center'>
-					<img src={map} alt="ph-map" className='rounded-2xl mx-auto w-full md:w-full h-5/6'/>
+
+				{/* Hidden if screen if greater than 720px of medium device */}
+				<div className="flex md:hidden flex-row">
+					<div className="p-2 w-full flex flex-row justify-between items-center shadow-md">
+						<MenuIcon size={40} className="cursor-pointer" onClick={() => setToggleSidebar(true)} />
+						<Link to="/">
+							<h1 className='text-2xl p-4'>
+								<CameraIcon/>Adventu<span className='font-bold text-teal-400'>Snap</span>
+							</h1>
+						</Link>
+					</div>
+					{/*overlay*/}
+					{toggleSidebar ? <div className='bg-black/20 fixed w-full h-screen z-10 top-0 left-0'>	</div>: ''}
+					
+					{toggleSidebar && (
+					<div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in">
+						<div className="absolute w-full flex justify-end items-center p-2">
+							<CloseIcon size={30} className="cursor-pointer" onClick={() => setToggleSidebar(false)} />
+						</div>
+						<Sidebar />
+					</div>
+					)}
+				</div>
+
+				{/* Left panel all images will be displayed */}
+				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
+					<Routes>
+						<Route path="/user-profile/:userId" element={<UserProfile />} />
+						<Route path="/*" element={<Pins user={user && user} />} />
+					</Routes>
 				</div>
 			</div>
+		</UserProfileContext.Provider>
+	);
+};
 
-			
-		</div>
-	)
-}
-
-export default Home
-
+export default Home;
