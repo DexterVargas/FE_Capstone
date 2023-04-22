@@ -13,8 +13,10 @@ import { UserProfileContext } from '../pages/Home';
 const UserAvatar = () => {
     const navigate = useNavigate();
 	const context = useContext(UserProfileContext);
+    const currentUserID = context.user ? context.user?._id : '';
+
     const profileMenuItems = [	
-        {label: "My Profile",icon: AccountCircleIcon, callback: ()=>{ navigate(`user-profile/${context.userInfo.uid}`);} },
+        {label: "My Profile",icon: AccountCircleIcon, callback: ()=>{ navigate(`user-profile/${currentUserID}`);} },
         {label: "Sign Out",icon: LogoutIcon, callback: ()=>{ signOut(auth); localStorage.clear(); navigate(ROUTES.WELCOME); 
     } }];
 
@@ -26,13 +28,14 @@ const UserAvatar = () => {
             </Link>
         </div>
         <Menu open={context.isMenuOpen} handler={context.setIsMenuOpen} placement="bottom-end">
+            {context.user && (
             <MenuHandler>
                 <Button variant="text" color="blue-gray" className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto">
-                    <label className='px-2'>{context.userInfo.displayName}</label>
-                    <Avatar variant="circular" size="sm" alt="user avatar" className="border border-blue-500 p-0.5" src={context.userInfo.photoURL} />
+                    <label className='px-2'>{context.user?.userName}</label>
+                    <Avatar variant="circular" size="sm" alt="user avatar" className="border border-blue-500 p-0.5" src={context.user?.image} />
                     <KeyboardArrowDownIcon strokeWidth={2.5} className={`h-3 w-3 transition-transform ${ context.isMenuOpen ? "rotate-180" : "" }`}/>
                 </Button>
-            </MenuHandler>
+            </MenuHandler>)}
             <MenuList className="p-1">
                 {profileMenuItems.map(({ label, icon,path, callback }, key) => {
                     const isLastItem = key === profileMenuItems.length - 1;

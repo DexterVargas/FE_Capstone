@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { categories } from '../utils/data';
+import { provinces } from '../utils/data';
 import { v4 as uuidv4 } from 'uuid';
 import { auth } from "../library/firebase";
 import { signOut } from "firebase/auth";
-import bgImage from  '../assets/camera.png'
 
 const isNotActiveStyle = 'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize';
 const isActiveStyle = 'flex items-center px-5 gap-3 font-extrabold border-r-2 border-black  transition-all duration-200 ease-in-out capitalize bg-gray-200';
@@ -21,9 +20,10 @@ import { UserProfileContext } from '../pages/Home';
 const Sidebar = () => {
 	const context = useContext(UserProfileContext);
     const navigate = useNavigate();
+	const currentUserID = context.user ? context.user?._id : '';
 	const userOptions = [
 		{ title: 'Add Photo', icon: AddAPhotoIcon, path: '/create-pin' },
-		{ title: 'My Collections', icon: CollectionsIcon, path: `user-profile/${context.userInfo.uid}` },
+		{ title: 'My Collections', icon: CollectionsIcon, path: `user-profile/${currentUserID}` },
 		{ title: 'Browse Collection', icon: BrowseGalleryIcon, path: '/search' }];
 
 	const handleCloseSidebar = () => {
@@ -52,21 +52,24 @@ const Sidebar = () => {
 						</NavLink>
 					))}
 					<h3 className="mt-2 px-5 text-base 2xl:text-xl">Discover Places</h3>
-					{categories.slice(0, categories.length - 1).map((category) => (
-						<NavLink to={`/explore/${category.name}`} className={({ isActive }) => (isActive ? isActiveStyle : isNotActiveStyle)} onClick={handleCloseSidebar} key={category.name} >
-							<img src={category.image} className="w-8 h-8 rounded-full shadow-sm" />
-							{category.name}
+					{provinces.slice(0, provinces.length - 1).map((province) => (
+						<NavLink to={`/explore/${province.name}`} className={({ isActive }) => (isActive ? isActiveStyle : isNotActiveStyle)} onClick={handleCloseSidebar} key={uuidv4()} >
+							<img src={`https://source.unsplash.com/600x400/?${province.name}`} className="w-8 h-8 rounded-full shadow-sm" />
+							{province.name}
 						</NavLink>
 					))}
 				</div>
 			</div>
-			<Link to={`user-profile/${context.userInfo.uid}`} className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3" onClick={handleCloseSidebar} >
-				<img src={context.userInfo.photoURL} className="w-10 h-10 rounded-full" alt="user-profile" />
-				<p>{context.userInfo.displayName}</p>
+			{context.user && (
+			<Link to={`user-profile/${context.user?._id}`} className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3" onClick={handleCloseSidebar} >
+				<img src={context.user?.image} className="w-10 h-10 rounded-full" alt="user-profile" />
+				<p>{context.user?.userName}</p>
 			</Link>
+			)}
 			<Button type="button" variant="text" color="blue-gray" className="flex mb-3 gap-2 p-2 items-center bg-blue-gray-100 rounded-lg shadow-lg mx-3 transition-all hover:bg-red-100 hover:text-blue-gray-900 justify-center" onClick={()=>{ signOut(auth); localStorage.clear(); navigate('/welcome');}} >
 				Sign out
 			</Button>
+			
 		</div>
 	);
 };

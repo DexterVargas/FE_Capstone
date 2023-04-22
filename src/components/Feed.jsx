@@ -7,36 +7,36 @@ import MasonryLayout from './MasonryLayout';
 import Spinner from './Spinner';
 
 const Feed = () => {
-	const [pins, setPins] = useState();
+	const [snaps, setSnaps] = useState();
 	const [loading, setLoading] = useState(false);
 	const { categoryId } = useParams();
 
 	useEffect(() => {
 		if (categoryId) {
-		setLoading(true);
-		const query = searchQuery(categoryId);
-		client.fetch(query).then((data) => {
-			setPins(data);
-			setLoading(false);
-		});
+			setLoading(true);
+			const query = searchQuery(categoryId);
+			client.fetch(query).then((data) => {
+				setSnaps(data);
+				setLoading(false);
+			});
 		} else {
-		setLoading(true);
+			setLoading(true);
 
-		client.fetch(feedQuery).then((data) => {
-			setPins(data);
-			setLoading(false);
-		});
+			client.fetch(feedQuery).then((data) => {
+				setSnaps(data);
+				setLoading(false);
+			});
 		}
 	}, [categoryId]);
 
-	const ideaName = categoryId || 'new';
+	const snapName = categoryId || 'new';
 	
 	if (loading) {
-		return (<Spinner message={`We are adding ${ideaName} snaps to your feed!`} />);
+		return (<Spinner message={`We are adding ${snapName} snaps to your feed!`} />);
 	}
 	return (
 		<div>
-			{pins && (<MasonryLayout pins={pins} />)}
+			{snaps && (<MasonryLayout pins={snaps} />)}
 		</div>
 	);
 };

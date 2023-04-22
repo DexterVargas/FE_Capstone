@@ -10,11 +10,13 @@ import { userQuery } from '../utils/data';
 import { client } from '../library/sanity';
 import Pins from './Pins';
 export const UserProfileContext = createContext();
+import { pinDetailMorePinQuery, pinDetailQuery, searchQuery, userCreatedPinsQuery} from '../utils/data';
 
 const Home = () => {
 	const [toggleSidebar, setToggleSidebar] = useState(true);
 	const [user, setUser] = useState(null);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [refresher,setRefresher] = useState(true);
 	const closeMenu = () => setIsMenuOpen(false);
 
 	const scrollRef = useRef(null);
@@ -22,10 +24,9 @@ const Home = () => {
 	const userInfo = (localStorage.getItem('AdventuSnapUserAuth') !== null || localStorage.getItem('AdventuSnapUserAuth') !== 'undefined') ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
 
 	useEffect(() => {
-		const query = userQuery(userInfo.uid);
-			console.log(query)
+		const query = userQuery(userInfo?.uid);
 		client.fetch(query).then((data) => {
-			console.log('data0',data[0]);
+			console.log('data from HOME',data[0]);
 			setUser(data[0]);
 		});
 	}, []);
@@ -41,10 +42,12 @@ const Home = () => {
 		isMenuOpen,
 		setIsMenuOpen,
 		closeMenu,
+		refresher,
+		setRefresher
 	}
 	return (
 		<UserProfileContext.Provider value={ values }>
-			<div className="flex bg-gray-50 md:flex-row flex-col h-screen transition-height duration-75 ease-out bg-no-repeat bg-center" style={{backgroundImage: `url(${bgImage})`}} >
+			<div className="flex bg-gray-50 md:flex-row flex-col h-screen transition-height duration-75 ease-out bg-no-repeat bg-center bg-cover" style={{backgroundImage: `url(${bgImage})`}} >
 				<div className="hidden md:flex h-screen flex-initial">
 					<Sidebar />
 				</div>
@@ -76,7 +79,7 @@ const Home = () => {
 				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
 					<Routes>
 						<Route path="/user-profile/:userId" element={<UserProfile />} />
-						<Route path="/*" element={<Pins user={user && user} />} />
+						<Route path="/*" element={<Pins/>} />
 					</Routes>
 				</div>
 			</div>

@@ -27,7 +27,7 @@ const Search = ({ searchTerm }) => {
 
 	return (
 		<div>
-			{loading && <Spinner message="Searching snap" />}
+			{loading && <Spinner message="Searching snaps. Please wait..." />}
 			{pins?.length !== 0 && <MasonryLayout pins={pins} />}
 			{pins?.length === 0 && searchTerm !== '' && !loading && (
 				<div className="mt-10 text-center text-xl ">No Snaps Found!</div>

@@ -5,9 +5,9 @@ export const client = createClient({
 	projectId: import.meta.env.VITE_REACT_APP_SANITY_PROJECT_ID,
 	dataset: 'production',
 	apiVersion: '2023-04-20',
-	useCdn: true,
 	token: import.meta.env.VITE_REACT_APP_SANITY_TOKEN,
-	ignoreBrowserTokenWarning: true
+	ignoreBrowserTokenWarning: true,
+	useCdn: true
 });
 
 const builder = imageUrlBuilder(client);

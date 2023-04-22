@@ -1,222 +1,447 @@
 
-export const categories = [
-    {
-      name: 'Manila',
-      image: 'https://i.pinimg.com/750x/eb/47/44/eb4744eaa3b3ccd89749fa3470e2b0de.jpg',
-    },
-    {
-      name: 'Boracay',
-      image: 'https://i.pinimg.com/236x/25/14/29/251429345940a47490cc3d47dfe0a8eb.jpg',
-    },
-    {
-      name: 'Batangas',
-      image: 'https://i.pinimg.com/236x/03/48/b6/0348b65919fcbe1e4f559dc4feb0ee13.jpg',
-    },
-    {
-      name: 'Davao',
-      image: 'https://i.pinimg.com/750x/66/b1/29/66b1296d36598122e6a4c5452b5a7149.jpg',
-    },
-    {
-      name: 'Cebu',
-      image: 'https://i.pinimg.com/236x/72/8c/b4/728cb43f48ca762a75da645c121e5c57.jpg',
-    },
-    {
-      name: 'Bicol',
-      image: 'https://i.pinimg.com/236x/7d/ef/15/7def15ac734837346dac01fad598fc87.jpg',
-    },
-    {
-      name: 'Ilocos Notre',
-      image: 'https://i.pinimg.com/236x/b9/82/d4/b982d49a1edd984c4faef745fd1f8479.jpg',
-    },
-    {
-      name: 'Palawan',
-      image: 'https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg',
-    }, {
-      name: 'Baler',
-      image: 'https://i.pinimg.com/236x/fa/95/98/fa95986f2c408098531ca7cc78aee3a4.jpg',
-    },
-    {
-      name: 'Bataan',
-      image: 'https://i.pinimg.com/236x/46/7c/17/467c17277badb00b638f8ec4da89a358.jpg',
-    }, {
-      name: 'Siquijor',
-      image: 'https://i.pinimg.com/236x/6c/3c/52/6c3c529e8dadc7cffc4fddedd4caabe1.jpg',
-    }, {
-      name: 'Bohol',
-      image: 'https://i.pinimg.com/236x/1b/c8/30/1bc83077e363db1a394bf6a64b071e9f.jpg',
-    }, {
-      name: 'Siargao',
-      image: 'https://i.pinimg.com/236x/1b/c8/30/1bc83077e363db1a394bf6a64b071e9f.jpg',
-    },
-    {
-      name: 'others',
-      image: 'https://i.pinimg.com/236x/2e/63/c8/2e63c82dfd49aca8dccf9de3f57e8588.jpg',
-    },
-  ];
-  
-  export const feedQuery = `*[_type == "pin"] | order(_createdAt desc) {
-    image{
-      asset->{
-        url
-      }
-    },
-        _id,
-        destination,
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-        save[]{
-          _key,
-          postedBy->{
-            _id,
-            userName,
-            image
-          },
-        },
-      } `;
-  
-  export const pinDetailQuery = (pinId) => {
-    const query = `*[_type == "pin" && _id == '${pinId}']{
-      image{
-        asset->{
-          url
-        }
-      },
-      _id,
-      title, 
-      about,
-      category,
-      destination,
-      postedBy->{
-        _id,
-        userName,
-        image
-      },
-     save[]{
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-      },
-      comments[]{
-        comment,
-        _key,
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-      }
-    }`;
-    return query;
-  };
-  
-  export const pinDetailMorePinQuery = (pin) => {
-    const query = `*[_type == "pin" && category == '${pin.category}' && _id != '${pin._id}' ]{
-      image{
-        asset->{
-          url
-        }
-      },
-      _id,
-      destination,
-      postedBy->{
-        _id,
-        userName,
-        image
-      },
-      save[]{
-        _key,
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-      },
-    }`;
-    return query;
-  };
-  
-  export const searchQuery = (searchTerm) => {
-    const query = `*[_type == "pin" && title match '${searchTerm}*' || category match '${searchTerm}*' || about match '${searchTerm}*']{
-          image{
-            asset->{
-              url
-            }
-          },
-              _id,
-              destination,
-              postedBy->{
-                _id,
-                userName,
-                image
-              },
-              save[]{
-                _key,
-                postedBy->{
-                  _id,
-                  userName,
-                  image
-                },
-              },
-            }`;
-    return query;
-  };
-  
-  export const userQuery = (userId) => {
-    const query = `*[_type == "user" && _id == '${userId}']`;
-    return query;
-  };
-  
-  export const userCreatedPinsQuery = (userId) => {
-    const query = `*[ _type == 'pin' && userId == '${userId}'] | order(_createdAt desc){
-      image{
-        asset->{
-          url
-        }
-      },
-      _id,
-      destination,
-      postedBy->{
-        _id,
-        userName,
-        image
-      },
-      save[]{
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-      },
-    }`;
-    return query;
-  };
-  
-  export const userSavedPinsQuery = (userId) => {
-    const query = `*[_type == 'pin' && '${userId}' in save[].userId ] | order(_createdAt desc) {
-      image{
-        asset->{
-          url
-        }
-      },
-      _id,
-      destination,
-      postedBy->{
-        _id,
-        userName,
-        image
-      },
-      save[]{
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-      },
-    }`;
-    return query;
-  };
+export const feedQuery = `*[_type == "pin"] | order(_createdAt desc) {
+	image{
+		asset->{
+			url
+		}
+	},
+	_id,
+	postedBy->{
+		_id,
+		userName,
+		image
+	},
+} `;
+	
+export const pinDetailQuery = (pinId) => {
+	const query = `*[_type == "pin" && _id == '${pinId}']{
+		image{
+			asset->{
+				url
+			}
+		},
+		_id,
+		title, 
+		about,
+		province,
+		postedBy->{
+			_id,
+			userName,
+			image
+		},
+		comments[]{
+			comment,
+			_key,
+			postedBy->{
+				_id,
+				userName,
+			image
+			},
+		}
+	}`;
+	return query;
+};
+
+export const pinDetailMorePinQuery = (snap) => {
+	const query = `*[_type == "pin" && province == '${snap.province}' && _id != '${snap._id}' ]{
+		image{
+			asset->{
+				url
+			}
+		},
+		_id,
+		postedBy->{
+			_id,
+			userName,
+			image
+		},
+	}`;
+	return query;
+};
+
+export const searchQuery = (searchTerm) => {
+	const query = `*[_type == "pin" && title match '${searchTerm}*' || province match '${searchTerm}*' || about match '${searchTerm}*']{
+		image{
+			asset->{
+			url
+			}
+		},
+		_id,
+		postedBy->{
+			_id,
+			userName,
+			image
+		},
+	}`;
+	return query;
+};
+
+export const userQuery = (userId) => {
+	const query = `*[_type == "user" && _id == '${userId}']`;
+	return query;
+};
+
+export const userCreatedPinsQuery = (userId) => {
+	const query = `*[ _type == 'pin' && userId == '${userId}'] | order(_createdAt desc){
+		image{
+			asset->{
+				url
+			}
+		},
+		_id,
+		postedBy->{
+			_id,
+			userName,
+			image
+		},
+	}`;
+	return query;
+};
+
+export const provinces = [
+	{
+	name: 'Abra',
+	}
+	,{
+	name: 'Agusan del Norte',
+	}
+	,{
+	name: 'Agusan del Sur',
+	}
+	,{
+	name: 'Aklan',
+	}
+	,{
+	name: 'Albay',
+	}
+	,{
+	name: 'Angeles',
+	}
+	,{
+	name: 'Antique',
+	}
+	,{
+	name: 'Apayao',
+	}
+	,{
+	name: 'Aurora',
+	}
+	,{
+	name: 'Bacolod',
+	}
+	,{
+	name: 'Baguio',
+	}
+	,{
+	name: 'Basilan',
+	}
+	,{
+	name: 'Bataan',
+	}
+	,{
+	name: 'Batanes',
+	}
+	,{
+	name: 'Batangas',
+	}
+	,{
+	name: 'Benguet',
+	}
+	,{
+	name: 'Biliran',
+	}
+	,{
+	name: 'Bohol',
+	}
+	,{
+	name: 'Bukidnon',
+	}
+	,{
+	name: 'Bulacan',
+	}
+	,{
+	name: 'Butuan',
+	}
+	,{
+	name: 'Cagayan',
+	}
+	,{
+	name: 'Cagayan de Oro',
+	}
+	,{
+	name: 'Caloocan',
+	}
+	,{
+	name: 'Camarines Norte',
+	}
+	,{
+	name: 'Camarines Sur',
+	}
+	,{
+	name: 'Camiguin',
+	}
+	,{
+	name: 'Capiz',
+	}
+	,{
+	name: 'Catanduanes',
+	}
+	,{
+	name: 'Cavite',
+	}
+	,{
+	name: 'Cebu',
+	}
+	,{
+	name: 'Compostela Valley',
+	}
+	,{
+	name: 'Cotabato',
+	}
+	,{
+	name: 'Dagupan',
+	}
+	,{
+	name: 'Davao',
+	}
+	,{
+	name: 'Davao del Norte',
+	}
+	,{
+	name: 'Davao del Sur',
+	}
+	,{
+	name: 'Davao Oriental',
+	}
+	,{
+	name: 'Eastern Samar',
+	}
+	,{
+	name: 'General Santos',
+	}
+	,{
+	name: 'Guimaras',
+	}
+	,{
+	name: 'Ifugao',
+	}
+	,{
+	name: 'Iligan',
+	}
+	,{
+	name: 'Ilocos Norte',
+	}
+	,{
+	name: 'Ilocos Sur',
+	}
+	,{
+	name: 'Iloilo',
+	}
+	,{
+	name: 'Isabela',
+	}
+	,{
+	name: 'Kalinga',
+	}
+	,{
+	name: 'La Union',
+	}
+	,{
+	name: 'Laguna',
+	}
+	,{
+	name: 'Lanao del Norte',
+	}
+	,{
+	name: 'Lanao del Sur',
+	}
+	,{
+	name: 'Lapu-Lapu',
+	}
+	,{
+	name: 'Las Pinas',
+	}
+	,{
+	name: 'Leyte',
+	}
+	,{
+	name: 'Lucena',
+	}
+	,{
+	name: 'Maguindanao',
+	}
+	,{
+	name: 'Makati',
+	}
+	,{
+	name: 'Malabon',
+	}
+	,{
+	name: 'Mandaluyong City',
+	}
+	,{
+	name: 'Mandaue',
+	}
+	,{
+	name: 'Manila',
+	}
+	,{
+	name: 'Marikina',
+	}
+	,{
+	name: 'Marinduque',
+	}
+	,{
+	name: 'Masbate',
+	}
+	,{
+	name: 'Mindoro Occidental',
+	}
+	,{
+	name: 'Mindoro Oriental',
+	}
+	,{
+	name: 'Misamis Occidental',
+	}
+	,{
+	name: 'Misamis Oriental',
+	}
+	,{
+	name: 'Mountain Province',
+	}
+	,{
+	name: 'Muntinlupa',
+	}
+	,{
+	name: 'Naga',
+	}
+	,{
+	name: 'Navotas',
+	}
+	,{
+	name: 'Negros Occidental',
+	}
+	,{
+	name: 'Negros Oriental',
+	}
+	,{
+	name: 'Northern Samar',
+	}
+	,{
+	name: 'Nueva Ecija',
+	}
+	,{
+	name: 'Nueva Vizcaya',
+	}
+	,{
+	name: 'Olongapo',
+	}
+	,{
+	name: 'Ormoc',
+	}
+	,{
+	name: 'Palawan',
+	}
+	,{
+	name: 'Pampanga',
+	}
+	,{
+	name: 'Pangasinan',
+	}
+	,{
+	name: 'Paranaque',
+	}
+	,{
+	name: 'Pasay',
+	}
+	,{
+	name: 'Pasig',
+	}
+	,{
+	name: 'Pateros',
+	}
+	,{
+	name: 'Puerto Princesa',
+	}
+	,{
+	name: 'Quezon',
+	}
+	,{
+	name: 'Quezon City',
+	}
+	,{
+	name: 'Quirino',
+	}
+	,{
+	name: 'Rizal',
+	}
+	,{
+	name: 'Romblon',
+	}
+	,{
+	name: 'Samar',
+	}
+	,{
+	name: 'San Juan',
+	}
+	,{
+	name: 'Santiago',
+	}
+	,{
+	name: 'Sarangani',
+	}
+	,{
+	name: 'Siquijor',
+	}
+	,{
+	name: 'Sorsogon',
+	}
+	,{
+	name: 'South Cotabato',
+	}
+	,{
+	name: 'Southern Leyte',
+	}
+	,{
+	name: 'Sultan Kudarat',
+	}
+	,{
+	name: 'Sulu',
+	}
+	,{
+	name: 'Surigao del Norte',
+	}
+	,{
+	name: 'Surigao del Sur',
+	}
+	,{
+	name: 'Tacloban',
+	}
+	,{
+	name: 'Taguig',
+	}
+	,{
+	name: 'Tarlac',
+	}
+	,{
+	name: 'Tawi-Tawi',
+	}
+	,{
+	name: 'Valenzuela',
+	}
+	,{
+	name: 'Zambales',
+	}
+	,{
+	name: 'Zamboanga',
+	}
+	,{
+	name: 'Zamboanga del Norte',
+	}
+	,{
+	name: 'Zamboanga del Sur',
+	}
+	,{
+	name: 'Zamboanga Sibugay',
+	}
+];
