@@ -6,8 +6,6 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from "react-router-dom";
 import * as ROUTES from '../constants/constants'
 import bgVideoWelcome from '../assets/video/philippines.webm'
-
-
 const Welcome = () => {
 	const navigate = useNavigate();
 	const [explore, setExplore] = useState(false);
@@ -23,9 +21,7 @@ const Welcome = () => {
 			navigate(ROUTES.LOGIN, { replace: true })
 		}
 	}
-	const xx = document.querySelectorAll('#map_access :nth-child(even)');
 	
-	console.log(xx);
 	return ( 
 		<div className='h-screen w-full'>
 			<div className=" relative w-full h-full">
@@ -45,8 +41,7 @@ const Welcome = () => {
 						</div>
 					</div>
 					<div className='flex justify-center text-center max-w-5xl' ref={scrollRef}>
-						{/* <img src={map} alt="ph-map" className='hidden rounded-2xl  h-4/6 w-full md:flex '/> */}
-						<div id="map" className='hidden h-4/6 w-full md:flex '></div>
+						<img src={map} alt="ph-map" className='hidden rounded-2xl  h-4/6 w-full md:flex '/>
 					</div>
 				</div>
 			</div>

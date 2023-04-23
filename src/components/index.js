@@ -9,4 +9,4 @@ export {default as Sidebar} from './Sidebar'
 export {default as Spinner} from './Spinner'
 export {default as UserProfile} from './UserProfile'
 export {default as UserAvatar} from './UserAvatar'
-
+export {default as Explore} from './Explore'

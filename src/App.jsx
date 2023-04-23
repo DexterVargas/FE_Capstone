@@ -5,13 +5,17 @@ import Welcome from './pages/Welcome';
 import LoginByGoogle from './pages/LoginByGoogle';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import scriptImport from './hooks/scriptImport';
 
 const App = () => {
 	const [welcome, setWelcome] = useState(false);
 	const navigate = useNavigate();
+
+	scriptImport('./src/library/countrymap.js')
+	scriptImport('./src/library/mapdata.js')
+
 	useEffect(() => {
 		const userInfo = localStorage.getItem('AdventuSnapUserAuth') !== 'undefined' ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
-
 		if (!userInfo) {
 			navigate('/welcome');
 		}

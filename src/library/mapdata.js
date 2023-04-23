@@ -1,7 +1,7 @@
 var simplemaps_countrymap_mapdata={
   main_settings: {
     //General settings
-		width: "700", //or 'responsive'
+		width: "600", //or 'responsive'
     background_color: "#FFFFFF",
     background_transparent: "yes",
     border_color: "#ffffff",
@@ -426,11 +426,8 @@ var simplemaps_countrymap_mapdata={
     }
   },
   locations: {
-    "0": {
-      lat: "14.6042",
-      lng: "120.9822",
-      name: "Manila"
-    }
+
+    
   }
 };
 

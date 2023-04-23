@@ -6,7 +6,7 @@ import { feedQuery, searchQuery } from '../utils/data';
 import MasonryLayout from './MasonryLayout';
 import Spinner from './Spinner';
 
-const Feed = () => {
+const Feed = ({ interactiveMap }) => {
 	const [snaps, setSnaps] = useState();
 	const [loading, setLoading] = useState(false);
 	const { categoryId } = useParams();
@@ -19,6 +19,13 @@ const Feed = () => {
 				setSnaps(data);
 				setLoading(false);
 			});
+		} else if (interactiveMap) {
+			setLoading(true);
+			const queryMap = searchQuery(interactiveMap);
+			client.fetch(queryMap).then((data) => {
+				setSnaps(data);
+				setLoading(false);
+			});
 		} else {
 			setLoading(true);
 
@@ -27,9 +34,9 @@ const Feed = () => {
 				setLoading(false);
 			});
 		}
-	}, [categoryId]);
+	}, [categoryId, interactiveMap]);
 
-	const snapName = categoryId || 'new';
+	const snapName = categoryId || interactiveMap || 'new';
 	
 	if (loading) {
 		return (<Spinner message={`We are adding ${snapName} snaps to your feed!`} />);

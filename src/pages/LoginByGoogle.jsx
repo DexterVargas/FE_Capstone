@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate, Link} from 'react-router-dom';
-import logo from  '../assets/phcolored.png'
+import stackImg from  '../assets/img.jpg'
 import { Card,Button,Typography } from "@material-tailwind/react";
 import GoogleIcon from '@mui/icons-material/Google';
 import { auth, provider } from "../library/firebase";
 import { signInWithPopup } from 'firebase/auth';
 import { client } from '../library/sanity';
 import CameraIcon from '@mui/icons-material/Camera';
-import Home from './Home';
-import videoLogin from '../assets/video/philippines-playback2.webm'
+
+import videoLogin from '../assets/video/philippines-playback4.webm'
 
 const LoginByGoogle = () => {
 	const navigate = useNavigate();
@@ -50,10 +50,12 @@ const LoginByGoogle = () => {
 	}
 	return (
 		<>
-			<div className={`h-screen w-full blue-gray shadow-md bg-blackOverlay min-w-350 bg-left-top `}style={{backgroundImage: `url(${logo})`}} >
-				<div className='max-w-screen-2xl mx-auto flex flex-col items-center justify-center h-full p-4 md:flex-row gap-10'>
-					<div className='max-w-[700px] blue-gray shadow-md'>
-						<video src={videoLogin} type="video/mp4" loop controls={false} muted autoPlay className="w-full h-full object-cover" />
+			<div className='h-screen w-full'>
+				<div className='relative w-full h-full'>
+					<video src={videoLogin} type="video/mp4" loop controls={false} muted autoPlay className="w-full h-full object-cover" />
+					<div className='absolute mx-auto flex flex-col items-center h-full px-4 md:flex-row top-0 right-0 left-0 bottom-0 bg-blackOverlay' >
+					<div className='flex flex-col justify-center h-2/4 pl-0 mr-5 md:pl-60'>
+						<img src={stackImg} className="w-full h-full object-contain" />
 					</div>
 					<div className='flex flex-col justify-center items-center'>
 
@@ -77,6 +79,8 @@ const LoginByGoogle = () => {
 									</Button>
 							</Card>
 						</div>
+					</div>
+					
 					</div>
 				</div>
 			</div>

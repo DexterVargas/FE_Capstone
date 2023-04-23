@@ -25,11 +25,12 @@ const PinDetail = () => {
 		if (query) {
 			client.fetch(`${query}`).then((data) => {
 				setPinDetail(data[0]);
-				console.log('fetchdata',data);
+				// console.log('fetchPin', data[0])
 				context.setRefresher(!context.refresher);
 				if (data[0]) {
-					const query1 = pinDetailMorePinQuery(data[0]);
-					client.fetch(query1).then((res) => {
+					const queryMore = pinDetailMorePinQuery(data[0]);
+					client.fetch(queryMore).then((res) => {
+						// console.log(res)
 						setPins(res);
 					});
 				}
@@ -39,7 +40,8 @@ const PinDetail = () => {
 
 	useEffect(() => {
 		fetchPinDetails();
-	}, [pinId]);
+		if (addingComment) fetchPinDetails();
+	}, [pinId,addingComment]);
 
 	const addComment = () => {
 		if (comment) {
@@ -52,7 +54,6 @@ const PinDetail = () => {
 				.commit()
 				.then(() => {
 					fetchPinDetails();
-
 					setComment('');
 					setAddingComment(false);
 				});
@@ -60,18 +61,16 @@ const PinDetail = () => {
 	};
 
 	if (!pinDetail) {
-		return (<Spinner message="Showing pin" />);
+		return (<Spinner message="Showing snaps" />);
 	}
-
 	return (
 		<>
 		{pinDetail && (
-			<div className="max-w-[1024px] flex md:flex-row flex-col m-auto mx-2 my-2 bg-white rounded-lg md:items-center " >
-				<div className='bg-black/20 top-0 left-0 w-full h-full md:w-4/6 rounded-l-lg flex justify-center items-center border-r border-gray-400'>
-					<img className="object-contain rounded-lg  " src={(pinDetail?.image && urlFor(pinDetail?.image).url())} alt="user-post" />
+			<div className="relative max-w-[1024px] flex md:flex-row flex-col my-2 mx-auto bg-white rounded-lg md:items-center " >
+				<div className='bg-black/20 top-0 left-0 w-full h-full md:w-4/6 rounded-l-lg flex justify-center items-center border-r border-gray-400 z-10'>
+					<img className="object-contain rounded-lg  max-h-[510px]" src={(pinDetail?.image && urlFor(pinDetail?.image).url())} alt="user-post" />
 				</div>
-
-				<div className="p-5 md:min-w-520 flex flex-col justify-start">
+				<div className="p-5 md:min-w-520 flex flex-col justify-start z-10">
 					<div>
 						<h1 className="text-2xl font-bold break-words mt-3 border-b border-gray-400">
 							<CameraIcon className='text-font text-blue-gray-400'/>{pinDetail.title}
@@ -108,17 +107,20 @@ const PinDetail = () => {
 						</button>
 					</div>
 				</div>
+				<div className="absolute top-1/2 z-0 left-0 p-2">
+							<h1 className='text-[20em] font-extrabold text-white opacity-30'>{pinDetail?.province}</h1>
+				</div>
 			</div>
 		)}
 		{pins?.length > 0 && (
 			<h2 className="text-center font-bold text-2xl mt-8 mb-4">
-			Similar snaps
+			Similar snaps for {pinDetail?.province}
 			</h2>
 		)}
 		{pins ? (
 			<MasonryLayout pins={pins} />
 		) : (
-			<Spinner message="Loading more pins" />
+			<Spinner message="Loading more snaps" />
 		)}
 		</>
 	);

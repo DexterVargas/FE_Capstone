@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, createContext } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import CameraIcon from '@mui/icons-material/Camera';
-import bgImage from  '../assets/bg.jpg'
+import bgImage from  '../assets/homebgimage.jpg'
 
 import { Link, Route, Routes } from 'react-router-dom';
 import { Sidebar, UserProfile } from '../components';
@@ -10,7 +10,6 @@ import { userQuery } from '../utils/data';
 import { client } from '../library/sanity';
 import Pins from './Pins';
 export const UserProfileContext = createContext();
-import { pinDetailMorePinQuery, pinDetailQuery, searchQuery, userCreatedPinsQuery} from '../utils/data';
 
 const Home = () => {
 	const [toggleSidebar, setToggleSidebar] = useState(true);
@@ -21,12 +20,12 @@ const Home = () => {
 
 	const scrollRef = useRef(null);
 
-	const userInfo = (localStorage.getItem('AdventuSnapUserAuth') !== null || localStorage.getItem('AdventuSnapUserAuth') !== 'undefined') ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
+	const userInfo = localStorage.getItem('AdventuSnapUserAuth') !== 'undefined' ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
 
 	useEffect(() => {
 		const query = userQuery(userInfo?.uid);
 		client.fetch(query).then((data) => {
-			console.log('data from HOME',data[0]);
+			// console.log('data from HOME',data[0]);
 			setUser(data[0]);
 		});
 	}, []);
@@ -47,7 +46,7 @@ const Home = () => {
 	}
 	return (
 		<UserProfileContext.Provider value={ values }>
-			<div className="flex bg-gray-50 md:flex-row flex-col h-screen transition-height duration-75 ease-out bg-no-repeat bg-center bg-cover" style={{backgroundImage: `url(${bgImage})`}} >
+			<div  style={{backgroundImage: `url(${bgImage})`}} className="flex md:flex-row flex-col h-screen transition-height duration-75 ease-out bg-no-repeat bg-center bg-cover" >
 				<div className="hidden md:flex h-screen flex-initial">
 					<Sidebar />
 				</div>
@@ -66,7 +65,7 @@ const Home = () => {
 					{toggleSidebar ? <div className='bg-black/20 fixed w-full h-screen z-10 top-0 left-0'>	</div>: ''}
 					
 					{toggleSidebar && (
-					<div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in">
+					<div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-20 animate-slide-in">
 						<div className="absolute w-full flex justify-end items-center p-2">
 							<CloseIcon size={30} className="cursor-pointer" onClick={() => setToggleSidebar(false)} />
 						</div>
