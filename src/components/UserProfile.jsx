@@ -22,8 +22,6 @@ const UserProfile = () => {
 	const User = localStorage.getItem('AdventuSnapUserAuth') !== 'undefined' ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
 
 	useEffect(() => {
-		document.title = 'AdventuSnap | My Profile'
-
 		const query = userQuery(userId);
 		client.fetch(query).then((data) => {
 			setUser(data[0]);

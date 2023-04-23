@@ -23,6 +23,7 @@ const Home = () => {
 	const userInfo = localStorage.getItem('AdventuSnapUserAuth') !== 'undefined' ? JSON.parse(localStorage.getItem('AdventuSnapUserAuth')) : localStorage.clear();
 
 	useEffect(() => {
+		document.title = 'AdventuSnap | Home'
 		const query = userQuery(userInfo?.uid);
 		client.fetch(query).then((data) => {
 			// console.log('data from HOME',data[0]);

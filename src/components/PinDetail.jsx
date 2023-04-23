@@ -103,7 +103,7 @@ const PinDetail = () => {
 						</Link>
 						<input className=" flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-200" type="text" placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)}/>
 						<button type="button" className="bg-gray-200 blue-gray rounded-full px-4 py-1 selection:text-base outline-none hover:bg-blue-gray-400 hover:text-white" onClick={addComment} >
-							{addingComment ? 'Doing...' : 'Done'}
+							{addingComment ? '.....' : 'Send'}
 						</button>
 					</div>
 				</div>
