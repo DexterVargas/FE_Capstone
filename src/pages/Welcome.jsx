@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect} from 'react'
 import map from '../assets/ph-map.png'
+import bgPh from '../assets/giphy.gif'
 import { Button } from '@material-tailwind/react';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from "react-router-dom";
 import * as ROUTES from '../constants/constants'
-import bgVideoWelcome from '../assets/video/philippines.webm'
+import bgVideoWelcome from '../assets/video/philippines.webm';
+import CameraIcon from '@mui/icons-material/Camera';
 const Welcome = () => {
 	const navigate = useNavigate();
 	const [explore, setExplore] = useState(false);
@@ -28,8 +30,11 @@ const Welcome = () => {
 			    <video src={bgVideoWelcome} type="video/mp4" loop controls={false} muted autoPlay className="w-full h-full object-cover" />
 				<div className='absolute mx-auto flex flex-col items-center h-full px-4 md:flex-row top-0 right-0 left-0 bottom-0 bg-blackOverlay'>
 					<div className='flex flex-col justify-center h-full pl-0 md:pl-60'>
-						<h2 className='text-4xl sm:text-7xl font-bold text-white'><NavigationIcon/>Discover</h2>
-						<h3 className='text-4xl sm:text-7xl font-bold text-teal-400' >Philippines</h3>
+						<h1 className='flex text-2xl sm:text-3xl lg:text-4xl text-navColor mb-5'>
+								<CameraIcon fontSize='large' />Adventu<span className='font-bold text-teal-400'>Snap</span>
+						</h1>
+						<h2 className='text-4xl sm:text-7xl font-bold text-navColor'><NavigationIcon/>Discover</h2>
+						<h3 className='text-4xl sm:text-7xl lg:text-9xl font-bold bg-clip-text text-transparent bg-center bg-cover'style={{ backgroundImage: `url(${bgPh})` }} >Philippines</h3>
 						<p className='my-2 mb-4 text-blue-gray-200 '>Explore the country's renowned attractions, best activities, diverse cuisine, and rich culture. We can't wait for you to experience them all. #MoreFunAwaits you in the Philippines. #ItsMoreFunInThePhilippines<TravelExploreIcon /></p>
 						<div>
 							<Button color='blue-gray' className="group flex items-center gap-3 border-none" onMouseOver={() => setExplore(true)} onMouseLeave={() => setExplore(false)} onClick={handleClick}>

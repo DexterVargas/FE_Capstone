@@ -56,17 +56,13 @@ const UserProfile = () => {
 			<div className="flex flex-col pb-5">
 				<div className="relative flex flex-col mb-7">
 					<div className="flex flex-col justify-center items-center">
-						<img
-						className=" w-full h-370 2xl:h-510 shadow-lg object-cover"
-						src={bgProfile}
-						alt="user-pic"
-						/>
+						<img className=" w-full h-370 2xl:h-510 shadow-lg object-cover" src={bgProfile} alt="user-pic" />
 						<h1 className="absolute bottom-0 font-bold text-3xl sm:text-5xl md:text-6xl lg:text-9xl text-center text-gray-600 opacity-70">
 							{user.userName}
 						</h1>
 					</div>
 						<div className="absolute top-32 z-0 left-0 p-2">
-							<h1 className='text-7xl font-extrabold text-white opacity-20'>My Snaps.</h1>
+							<h1 className='text-7xl font-extrabold text-white opacity-20'>{userId===User.uid?'My':''} Snaps.</h1>
 						</div>
 					<div className="absolute top-0 z-1 right-0 p-2 group">
 						<div className='relative right-[15%] top-5 border border-white w-72 h-72 shadow-md bg-white flex justify-center items-center bg-center bg-cover duration-500 group' style={{ backgroundImage: imgURL }}>	
@@ -83,13 +79,13 @@ const UserProfile = () => {
 					</div>
 				</div>
 				<div className="text-center mb-7">
-					<CollectionsIcon /> My Snap Collections
+					<CollectionsIcon /> {userId===User.uid?'My':user.userName} Snap Collections
 				</div>
 
 				<div className="px-2">
 					<MasonryLayout pins={snaps} />
 				</div>
-
+				
 				{snaps?.length === 0 && (
 				<div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
 					No Snaps Found! Gallery is empty.

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 const scriptImport = (resourceUrl) => {
 	useEffect(() => {
 		const script = document.createElement('script');

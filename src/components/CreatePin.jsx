@@ -81,9 +81,11 @@ const CreatePin = () => {
 			<label htmlFor="title" className="mt-3 text-sm leading-6 text-gray-600">Title</label>
 			<input type="text" name="title" id="title" autoComplete="username" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6" placeholder="Snap title" required value={title}
 			onChange={(e) => setTitle(e.target.value)}/>
+
 			<label htmlFor="about" className="mt-3 text-sm leading-6 text-gray-600">About</label>
-			<textarea id="about" name="about" rows="3" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6" placeholder='Write something about your snap.' required value={about}
+			<textarea id="about" name="about" rows="3" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6" placeholder='Write something about your snap, moments, adventure. #place #name of resort or restaurant #people #travelgoals' required value={about}
 			onChange={(e) => setAbout(e.target.value)} ></textarea>
+
 			<div className="mt-2 flex flex-col justify-center items-center rounded-lg border border-dashed border-gray-900/25 px-6 py-2">
 			{loading && (<Spinner />)}
 			{wrongImageType && (<p>It&apos;s wrong file type.</p>)}
@@ -94,17 +96,15 @@ const CreatePin = () => {
 					<input type="file" name="upload-image" onChange={uploadImage} className="w-0 h-0" />
 				</label>):(
 				<div className="relative h-full">
-					<img
-						src={imageAsset?.url}
-						alt="uploaded-pic"
-						className="h-full w-full"
-						/>
+					<img src={imageAsset?.url} alt="uploaded-pic" className="h-full w-full" />
 					<button type='button' onClick={() => setImageAsset(null)} className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out">
 						<DeleteOutlineOutlinedIcon/>
 					</button>
 				</div>)}
 			</div>
-			<label htmlFor="province" className="mt-3 text-sm leading-6 text-gray-600">City / Province</label>
+			<label htmlFor="province" className="mt-3 text-sm leading-6 text-gray-600">
+				City / Province
+			</label>
 			<select id="province" name="province" autoComplete="province-name" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6" 
 			value={province} onChange={(e) => { setCategory(e.target.value); console.log(e.target.value)}}>
 					{provinces.map((item) => (
@@ -114,7 +114,9 @@ const CreatePin = () => {
 						))}
 			</select>
 			<div className="mt flex items-center justify-end">
-				<button type="button" className="bg-gray-200 blue-gray rounded-full px-4 py-1 mt-1 text-base outline-none hover:bg-blue-gray-400 hover:text-white shadow-sm" onClick={savePin}>Save Snap</button>
+				<button type="button" className="bg-gray-200 blue-gray rounded-full px-4 py-1 mt-1 text-base outline-none hover:bg-blue-gray-400 hover:text-white shadow-sm" onClick={savePin}>
+					Save Snap
+				</button>
 			</div>
 		</div>
 	);

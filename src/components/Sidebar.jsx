@@ -24,7 +24,7 @@ const Sidebar = () => {
 	const userOptions = [
 		{ title: 'Add Photo', icon: AddAPhotoIcon, path: '/create-pin' },
 		{ title: 'My Collections', icon: CollectionsIcon, path: `user-profile/${currentUserID}` },
-		{ title: 'Browse Collection', icon: BrowseGalleryIcon, path: '/search' }];
+		{ title: 'Browse Collections', icon: BrowseGalleryIcon, path: '/search' }];
 
 	const handleCloseSidebar = () => {
 		if (context.toggleSidebar) context.setToggleSidebar(false);

@@ -57,8 +57,8 @@ const Home = () => {
 					<div className="p-2 w-full flex flex-row justify-between items-center shadow-md">
 						<MenuIcon size={40} className="cursor-pointer" onClick={() => setToggleSidebar(true)} />
 						<Link to="/">
-							<h1 className='text-2xl p-4'>
-								<CameraIcon/>Adventu<span className='font-bold text-teal-400'>Snap</span>
+							<h1 className='flex justify-center items-center text-2xl p-4'>
+								<CameraIcon className='text-navColor'/>Adventu<span className='font-bold text-teal-400'>Snap</span>
 							</h1>
 						</Link>
 					</div>

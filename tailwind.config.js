@@ -60,6 +60,16 @@ module.exports = withMT({
             '-webkit-transform': 'translateX(0px)',
             transform: 'translateX(0px)',
           },
+        },        
+        'slide-up': {
+          '100%': {
+            '-webkit-transform': 'translateY(0px)',
+            transform: 'translateY(0px)',
+          },
+          '0%': {
+            '-webkit-transform': 'translateY(20px)',
+            transform: 'translateY(20px)',
+          },
         },
 
         'slide-fwd': {
@@ -74,8 +84,9 @@ module.exports = withMT({
         },
       },
       animation: {
-        'slide-in': 'slide-in 0.5s ease-out',
+        'slide-in': 'slide-in 0.5s ease-in',
         'slide-fwd': ' slide-fwd 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'slide-up': 'slide-up 0.5s ease-out'
       },
       transitionProperty: {
         height: 'height',
