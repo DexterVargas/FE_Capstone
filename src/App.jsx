@@ -23,8 +23,8 @@ const App = () => {
 
 	return (
 		<Routes>
-			<Route exact path={ROUTES.LOGIN} element={<LoginByGoogle/>} />
-			<Route exact path={ROUTES.WELCOME} element={<Welcome/>} />
+			{/* <Route exact path={ROUTES.LOGIN} element={<LoginByGoogle/>} /> */}
+			{/* <Route exact path={ROUTES.WELCOME} element={<Welcome/>} /> */}
 			<Route path={ROUTES.HOME} element={<Home/>} />
 			<Route path={ROUTES.NOT_FOUND} element={<NotFound/>} />
 		</Routes>
